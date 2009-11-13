@@ -3,22 +3,28 @@ require 'RMagick'
 class Sprite  
   CONFIG_PATH = RAILS_ROOT + '/config/'
   DEFAULT_IMAGE_PATH = RAILS_ROOT + '/public/images/'
-  CSS_OUTPUT = RAILS_ROOT + '/tmp/css_sprite.css'
+  DEFAULT_FILE_PATH = RAILS_ROOT + '/tmp/sprite.css'
   
   def initialize
     @image_path = DEFAULT_IMAGE_PATH
-    @config_files = Dir.glob("#{CONFIG_PATH}/css_sprite*.yml")
+    @config_files = Dir.glob("#{CONFIG_PATH}/sprite.yml")
   end
   
   def build
     @config_files.each do |config_file|
       @output = {}
+      
+      # build up settings
       sprite_config = File.open(config_file) {|f| YAML::load(f)}
-      @image_path = (sprite_config['config']['base_directory'])?RAILS_ROOT+"/"+sprite_config['config']['base_directory']+"/":DEFAULT_IMAGE_PATH
-      @css_output = (sprite_config['config']['css_output'])?RAILS_ROOT+"/"+sprite_config['config']['css_output']:CSS_OUTPUT
+      @image_path = sprite_config['config']['base_image_path'] ? RAILS_ROOT+"/"+sprite_config['config']['base_image_path']+"/" : DEFAULT_IMAGE_PATH
+      @file_path = sprite_config['config']['output_file'] ? RAILS_ROOT+"/"+sprite_config['config']['output_file'] : DEFAULT_FILE_PATH
+      
+      # create images
       sprite_config['images'].each do |configuration|
          output_image(configuration)
       end
+      
+      # write css
       output_css(sprite_config)
     end
   end
@@ -48,8 +54,8 @@ class Sprite
     dest_image.write(@image_path + dest)
   end
   
-  def output_css(configuration)
-    File.open(@css_output, 'w') do |f|
+  def output_file(configuration)
+    File.open(@file_path, 'w') do |f|
       @output.each do |dest, results|
         results.each do |result|
           f.puts ".#{result[:name]}"

@@ -1,6 +1,5 @@
-
 namespace :sprite do  
-  desc "buid css sprite image"
+  desc "build sprite images based on config/sprite.yml"
   task :build do
     require File.join(File.dirname(__FILE__), '../lib/sprite/sprite.rb')
     Sprite.new.build
