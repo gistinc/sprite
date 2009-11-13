@@ -4,13 +4,13 @@
 # -*- encoding: utf-8 -*-
 
 Gem::Specification.new do |s|
-  s.name = %q{css_sprite}
+  s.name = %q{sprite}
   s.version = "1.0.1"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Richard Huang"]
   s.date = %q{2009-10-16}
-  s.description = %q{css_sprite is a rails plugin/gem to generate css sprite image automatically.}
+  s.description = %q{sprite is a rails plugin/gem to generate css sprite image automatically.}
   s.email = %q{flyerhzm@gmail.com}
   s.extra_rdoc_files = [
     "README.textile"

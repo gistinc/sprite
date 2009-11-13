@@ -11,12 +11,12 @@ Spec::Rake::SpecTask.new(:spec) do |t|
 end
 
 Jeweler::Tasks.new do |gemspec|
-  gemspec.name = "css_sprite"
-  gemspec.summary = "css_sprite is a rails plugin/gem to generate css sprite image automatically."
-  gemspec.description = "css_sprite is a rails plugin/gem to generate css sprite image automatically."
-  gemspec.email = "flyerhzm@gmail.com"
-  gemspec.homepage = "" 
-  gemspec.authors = ["Richard Huang"]
+  gemspec.name = "sprite"
+  gemspec.summary = "generate your css sprites automagically"
+  gemspec.description = "sprite is a rails/merb plugin that generates sprites for css, sass"
+  gemspec.email = "merbjedi@gmail.com"
+  gemspec.homepage = "http://github.com/merbjedi/sprite" 
+  gemspec.authors = ["Jacques Crocker", "Richard Huang"]
   gemspec.files.exclude '.gitignore'
 end
 Jeweler::GemcutterTasks.new

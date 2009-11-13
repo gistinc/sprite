@@ -10,7 +10,7 @@ class Sprite
   end
   
   def build
-    sprite_config = File.open(CONFIG_PATH + 'css_sprite.yml') {|f| YAML::load(f)}
+    sprite_config = File.open(CONFIG_PATH + 'sprite.yml') {|f| YAML::load(f)}
     sprite_config.each do |dest, configs|
       output_image(dest, configs)
     end
@@ -43,7 +43,7 @@ class Sprite
   end
   
   def output_css
-    File.open(PUBLIC_PATH + 'css_sprite.css', 'w') do |f|
+    File.open(PUBLIC_PATH + 'sprite.css', 'w') do |f|
       @output.each do |dest, results|
         results.each do |result|
           f.puts ".#{result[:name]} \{ "
