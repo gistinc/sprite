@@ -1,8 +1,8 @@
 require File.dirname(__FILE__) + '/spec_helper'
 
-describe CssSprite do
+describe Sprite do
   before(:all) do
-    @sprite = CssSprite.new
+    @sprite = Sprite.new
   end
   
   context "get_image" do
