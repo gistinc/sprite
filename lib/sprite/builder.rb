@@ -1,40 +1,37 @@
 module Sprite
   class Builder  
     DEFAULT_CONFIG_PATH = 'config/sprite.yml'
-    DEFAULT_IMAGE_PATH = 'public/images/'
-    DEFAULT_FILE_PATH = 'tmp/sprite.css'
     
     attr_reader :config
     attr_reader :images
     attr_reader :output
     
-    def self.from_config(path)
-      results = read_config(path)
+    def self.from_config(path) 
+      
+      # look up file
+      results = {}
+      config_path = File.join(Sprite.root, path || DEFAULT_CONFIG_PATH)
+      begin
+        results = File.open(config_path) {|f| YAML::load(f)}
+      rescue => e
+        puts "Unable to read sprite config: #{Sprite.root+"/"+config_path}"
+        puts e.to_s
+      end
+      
       new(results["config"], results["images"])
     end
 
     def initialize(config = nil, images = nil)
-      results = self.class.read_config unless config.is_a?(Hash) and images.is_a?(Array)
-
-      # use the override
-      if config.is_a?(Hash)
-        @config = config
-      else
-        @config = results["config"] || {}
-      end
-      
-      # set defaults
+      @config = config || {}
       set_config_defaults
-
-      # default image list
-      if images.is_a?(Array)
-        @images = images
-      else
-        @images = results["images"] || []
-      end
       
+      @images = images || []
       expand_image_paths
       
+      # freeze hashes
+      @config = @config.dup.freeze
+      @images = @images.dup.freeze
+
       # initialize output
       @output = {}
     end
@@ -95,21 +92,8 @@ module Sprite
         end
       end
     end
-
+    
     protected
-  
-    # reads config config from the given path
-    def self.read_config(path = nil)
-      config_results = {}
-      config_path = File.join(Sprite.root, path || DEFAULT_CONFIG_PATH)
-      begin
-        config_results = File.open(config_path) {|f| YAML::load(f)}
-      rescue => e
-        puts "Unable to read sprite config: #{Sprite.root+"/"+config_path}"
-        puts e.to_s
-      end
-      config_results
-    end
     
     # sets all the default values on the config
     def set_config_defaults

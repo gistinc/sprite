@@ -5,7 +5,7 @@ describe Sprite::Builder do
   context "configuration parsing" do
     before(:all) do
       @sprite = Sprite::Builder.from_config("resources/configs/full_config.yml")
-    end
+    end 
     
     it "should load the settings keys from file" do
       @sprite.config.keys.size.should == 6
@@ -34,14 +34,21 @@ describe Sprite::Builder do
       @sprite.config['output_path'].should == "public/stylesheets/sprites"
     end
 
-    it "'image_output_path:' setting should default to 'public/images/sprites/" do
+    it "'image_output_path:' setting should default to 'public/images/sprites/'" do
       @sprite.config['image_output_path'].should == "public/images/sprites/"
     end
 
-    it "'source_path:' setting should default to 'public/images/" do
+    it "'source_path:' setting should default to 'public/images/'" do
       @sprite.config['source_path'].should == "public/images/"
     end
-        
+
+    it "'default_format:' setting should default to 'png'" do
+      @sprite.config['default_format'].should == "png"
+    end
+
+    it "'class_separator:' setting should default to '_'" do
+      @sprite.config['class_separator'].should == "_"
+    end
     
   end
   

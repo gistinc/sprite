@@ -6,7 +6,7 @@
 
 ### Install the `rmagick` gem ###
 
-sprite currently requires the rmagick gem. to install it, use
+`sprite` currently requires the rmagick gem. to install it, use
 
     gem install rmagick
 
@@ -19,7 +19,7 @@ or via installer: http://github.com/maddox/magick-installer/tree/master
 
 ### Install the `sprite` gem ###
 
-Install the sprite gem from gemcutter
+Install the `sprite` gem from gemcutter
 
     gem sources -a http://gemcutter.org
     gem install sprite
