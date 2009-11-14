@@ -6,15 +6,21 @@ module Sprite
     
     attr_reader :config
     attr_reader :images
+    attr_reader :output
+    
+    def self.from_config(path)
+      results = read_config(path)
+      new(results["config"], results["images"])
+    end
 
     def initialize(config = nil, images = nil)
-      results = config_results
+      results = self.class.read_config unless config.is_a?(Hash) and images.is_a?(Array)
 
       # use the override
       if config.is_a?(Hash)
         @config = config
       else
-        @config = config["config"] || {}
+        @config = results["config"] || {}
       end
       
       # set defaults
@@ -24,30 +30,32 @@ module Sprite
       if images.is_a?(Array)
         @images = images
       else
-        @images = config["images"] || []
+        @images = results["images"] || []
       end
       
-      # process images
-      process_image_settings
+      expand_image_paths
+      
+      # initialize output
+      @output = {}
     end
   
-    def build
+    def build    
       @output = {}
-    
+
       # build up config
-      @image_path = sprite_config['config']['base_image_path'] ? Sprite.root+"/"+sprite_config['config']['base_image_path']+"/" : DEFAULT_IMAGE_PATH
-      @file_path = sprite_config['config']['output_file'] ? Sprite.root+"/"+sprite_config['config']['output_file'] : DEFAULT_FILE_PATH
+      # @image_path = sprite_config['base_image_path'] ? Sprite.root+"/"+sprite_config['config']['base_image_path']+"/" : DEFAULT_IMAGE_PATH
+      # @file_path = sprite_config['config']['output_file'] ? Sprite.root+"/"+sprite_config['config']['output_file'] : DEFAULT_FILE_PATH
     
       # create images
-      sprite_config['images'].each do |configuration|
-        output_image(configuration)
+      images.each do |image|
+        output_image(image)
       end
     
       # write css
-      output_css(sprite_config)
+      output_file
     end
   
-    def output_image(configuration)
+    def output_image(image)
       results = []
       sources = configuration['sources'].to_a
 
@@ -91,7 +99,7 @@ module Sprite
     protected
   
     # reads config config from the given path
-    def read_config(path = nil)
+    def self.read_config(path = nil)
       config_results = {}
       config_path = File.join(Sprite.root, path || DEFAULT_CONFIG_PATH)
       begin
@@ -105,34 +113,29 @@ module Sprite
     
     # sets all the default values on the config
     def set_config_defaults
-      @config['style']             ||= ''
-      @config['output_path']       ||= 'public/sass/mixins/sprites'
-      @config['image_output_path'] ||= 'public/images/sprite/'
-      @config['source_path']       ||= ''
+      @config['style']             ||= 'css'
+      @config['output_path']       ||= 'public/stylesheets/sprites'
+      @config['image_output_path'] ||= 'public/images/sprites/'
+      @config['source_path']       ||= 'public/images/'
       @config['default_format']    ||= 'png'
       @config['class_separator']   ||= '_'
     end
     
     # expands out sources
-    def process_image_config
+    def expand_image_paths
       # cycle through image sources and expand out globs
       @images.each do |image|
-        # find all the files
-        image['sources'] = image['sources'].to_a.map do |source|
+
+        # expand out all the globs
+        image['sources'] = image['sources'].to_a.map{ |source|
           Dir.glob(File.join(Sprite.root, @config['source_path'], source))
-        end
+        }.flatten.compact
         
-        # remove the prefix on them
-        new_sources = new_sources.flatten.map do |source|
+        # remove the prefixes on them
+        image['sources'].each do |source|
           source.gsub!(Sprite.root, "")
         end
-        
-        image_config['sources'] = new_sources
       end
-      
-    rescue => e
-      puts "Invalid sprite configuration syntax:"
-      puts e.to_s
     end
     
   end

@@ -88,8 +88,8 @@ Configuration of `sprite` is done via `config/sprite.yml`. It allows you to set 
   
 * `config:` section defines all the global properties for sprite generation. Such as how it generates the styles, where it looks for images, where it writes it output file to, and what image file format it uses by default
   - `style:` defines how the style rules are outputted. built in options are `css`, `sass`, and `sass_mixin`. (defaults to `css`)
-  - `output_path:` defines the file path where your style settings get written. the file extension not needed as it will be determined by the style setting above (defaults to `public/stylesheets/sprite`)
-  - `image_output_path:` defines the folder path where the combined sprite images files are written (defaults to `public/images/sprite/`)
+  - `output_path:` defines the file path where your style settings get written (defaults to `public/stylesheets/sprites`). the file extension not needed as it will be set based on the `style:` setting 
+  - `image_output_path:` defines the folder path where the combined sprite images files are written (defaults to `public/images/sprites/`)
   - `source_path:` defines the folder where source image files are read from (defaults to `public/images/`)
   - `default_format:` defines the default file image format of the generated files. (defaults to `png`)
   - `class_separator:` used within the generated class names between the image name and sprite name (defaults to `_`)
