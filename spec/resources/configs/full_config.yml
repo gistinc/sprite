@@ -1,0 +1,24 @@
+config:
+  style: css
+  output_path: output/stylesheets/sprites.css
+  image_output_path: output/images/sprites/
+  source_path: resources/images/
+  class_separator: '_'
+  default_format: png
+
+# defines what sprite collections get created
+images:    
+  - name: android
+    format: png
+    align: vertical
+    spaced_by: 50
+    sources:
+      - android/*.png
+  
+  - name: topics
+    format: gif
+    align: vertical
+    spaced_by: 50
+    sources:
+      - topics/good_topic.gif
+      - topics/mid_topic.gif

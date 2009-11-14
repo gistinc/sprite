@@ -1,5 +1,6 @@
-# set up Sprite module
 module Sprite  
+  
+  # provides the root directory to use when reading and writing files
   def self.root
     @root ||= nil
 

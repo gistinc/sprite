@@ -1,6 +1,6 @@
 require File.dirname(__FILE__) + '/../spec_helper'
 
-describe Sprite do
+describe Sprite::ImageCombiner do
   before(:all) do
     # build a sprite object with empty config
     @combiner = Sprite::ImageCombiner.new
