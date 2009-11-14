@@ -174,7 +174,7 @@ We also support mixin syntax via `style: sass_mixin`. If set, sprite will only g
 
 ## ABOUT `sprite` ##
 
-`sprite` was originally based off of Richard Huang's excellent Rails specific [`css_sprite`](http://github.com/flyerhzm/css_sprite) plugin
+`sprite` was originally based off of Richard Huang's excellent Rails plugin: [css_sprite](http://github.com/flyerhzm/css_sprite)
 
 Since then it's been rebuilt (with some reuse of the image generation code) to be a general purpose ruby executable, with hooks for merb/rails/sinatra
 
@@ -187,4 +187,4 @@ Released under the MIT License
 
 Copyright (c) 2009 [Jacques Crocker (merbjedi@gmail.com)]
 
-Original Codebase Copyright (c) 2009 [Richard Huang (flyerhzm@gmail.com)]
+Original Codebase Copyright (c) 2009 [Richard Huang]
