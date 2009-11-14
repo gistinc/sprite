@@ -1,12 +1,8 @@
-WORK IN PROGRESS. This README describes stuff yet to be implemented. Please read it though and msg me feedback if you think things should work differently! 
-
 # sprite #
 
 `sprite` is a gem that helps generate css sprite images automagically. It's aim is to support all web frameworks (Merb/Rails/Sinatra), and have extensible output generator. By default, it supports CSS and SASS output (via mixins).
 
-it's a fork and extension on Richard Huang's excellent Rails specific plugin [`css_sprite`](http://github.com/flyerhzm/css_sprite)
-
-## Install  ##
+## INSTALL  ##
 
 ### Install the `rmagick` gem ###
 
@@ -42,7 +38,7 @@ or install as a plugin
 
     script/plugin install git://github.com/merbjedi/sprite.git
 
-## Usage ##
+## USAGE ##
 
 if installed as a gem, at your root project folder you can just run 
   
@@ -52,9 +48,43 @@ if you would rather not install the gem, you can also use it with rake
 
     rake sprite:build
 
-## Configuration ##
 
-add `config/sprite.yml` to set sprite configuration options and define what sprites get generated where
+### Intelligent Defaults ###
+
+Without having to configure anything, `sprite` will allow you to easily generate sprites based on a couple default folder settings we give you right off the bat.
+
+For example, given you have the following setup:
+  
+    public/
+      images/
+        sprites/
+          black_icons/
+            stop.png
+            go.png
+            back.png
+            forward.png
+        
+          weather/
+            sunny.gif
+            rainy.gif
+            cloudy.gif
+  
+Running `sprite` with no configuration file will generate the following files:
+  
+    public/
+      stylesheets/
+        sprites.css
+      images/
+        sprites/
+          black_icons.png
+          weather.png
+
+Any folders within `public/images/sprites/` will get compressed into a merged image file at the same location. Then `sprites.css` got generated in the stylesheets folder with all the class definitions for these files. Just include `sprites.css` into your stylesheet and you're ready to go!
+
+
+## CONFIGURATION ##
+
+Configuration of `sprite` is done via `config/sprite.yml`. It allows you to set sprite configuration options, and fine tune exactly which sprites get generated where.
   
 * `config:` section defines all the global properties for sprite generation. Such as how it generates the styles, where it looks for images, where it writes it output file to, and what image file format it uses by default
   - `style:` defines how the style rules are outputted. built in options are `css`, `sass`, and `sass_mixin`. (defaults to `css`)
@@ -73,14 +103,14 @@ add `config/sprite.yml` to set sprite configuration options and define what spri
 
 you can define any number of destination image files.
 
-## Sample Configuration `config/sprite.yml` ##
+### Sample Configuration `config/sprite.yml` ###
 
     # defines the base configuration options (file paths, etc, default style, etc)
 
     config:
       style: css
       output_path: public/sass/mixins/sprites.sass
-      image_output_path: public/images/sprite/
+      image_output_path: public/images/sprites/
       source_path: public/images/
       class_separator: '_'
       default_format: png
@@ -88,7 +118,7 @@ you can define any number of destination image files.
     # defines what sprite collections get created
     images:    
 
-      # creates a public/images/sprite/blue_stars.png image with 4 sprites in it
+      # creates a public/images/sprites/blue_stars.png image with 4 sprites in it
       - name: blue_stars
         format: png
         align: horizontal
@@ -99,7 +129,7 @@ you can define any number of destination image files.
           - icons/blue_stars/large.png
           - icons/blue_stars/xlarge.png
       
-      # creates a public/images/sprite/green_stars.jpg image with 
+      # creates a public/images/sprites/green_stars.jpg image with 
       # all the jpg files contained within /images/icons/green_stars/
       - name: green_stars
         format: jpg
@@ -108,26 +138,26 @@ you can define any number of destination image files.
         sources:
           - icons/green_stars/*.jpg
 
-## Style Settings ##
+### Style Settings ###
 
-By default, it will use with `style: css` and generate the file at `public/stylesheets/sprite.css`
+By default, it will use with `style: css` and generate the file at `public/stylesheets/sprites.css`
 
-    .sprite.blue_stars_small {
+    .sprites.blue_stars_small {
       background: url('/images/icons/blue_stars/small.png') no-repeat 0px 0px;
       width: 12px;
       height: 6px;
     }
-    .sprite.blue_stars_medium {
+    .sprites.blue_stars_medium {
       background: url('/images/icons/blue_stars/medium.png') no-repeat 0px 6px;
       width: 30px;
       height: 15px;
     }
-    .sprite.blue_stars_large {
+    .sprites.blue_stars_large {
       background: url('/images/icons/blue_stars/large.png') no-repeat 0px 21px;
       width: 60px;
       height: 30px;
     }
-    .sprite.blue_stars_xlarge {
+    .sprites.blue_stars_xlarge {
       background: url('/images/icons/blue_stars/xlarge.png') no-repeat 0px 96px;
       width: 100px;
       height: 75px;
@@ -142,10 +172,19 @@ We also support mixin syntax via `style: sass_mixin`. If set, sprite will only g
     .mysmallbluestar
       +sprite("blue_stars", "small")
 
-## Contributors ##
+## ABOUT `sprite` ##
 
-merbjedi - reorganized as a general purpose ruby plugin for merb/rails/sinatra
+`sprite` was originally based off of Richard Huang's excellent Rails specific [`css_sprite`](http://github.com/flyerhzm/css_sprite) plugin
 
-josedelcorral - fix the style of generated css
+Since then it's been rebuilt (with some reuse of the image generation code) to be a general purpose ruby executable, with hooks for merb/rails/sinatra
 
-Copyright (c) 2009 [Richard Huang (flyerhzm@gmail.com)], released under the MIT license
+
+## LICENSE  ##
+
+Released under the MIT License
+
+## COPYRIGHT ##
+
+Copyright (c) 2009 [Jacques Crocker (merbjedi@gmail.com)]
+
+Original Codebase Copyright (c) 2009 [Richard Huang (flyerhzm@gmail.com)]
