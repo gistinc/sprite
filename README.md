@@ -36,7 +36,7 @@ add to environment.rb
 
 or install as a plugin
 
-    script/plugin install git://github.com/merbjedi/sprite.git
+    script/plugin install git://github.com/gistinc/sprite.git
 
 ## USAGE ##
 
@@ -69,7 +69,7 @@ For example, given you have the following setup:
             rainy.gif
             cloudy.gif
   
-Running `sprite` with no configuration file will generate the following files:
+Running `sprite` with no configuration file will generate the following new files:
   
     public/
       stylesheets/
@@ -185,6 +185,6 @@ Released under the MIT License
 
 ## COPYRIGHT ##
 
-Copyright (c) 2009 [Jacques Crocker (merbjedi@gmail.com)]
+Copyright (c) 2009 Gist
 
 Original Codebase Copyright (c) 2009 [Richard Huang]
