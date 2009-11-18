@@ -90,11 +90,12 @@ module Sprite
     def write_styles
       style = Styles.get(config["style"]).new(self)
       
-      # set up path
-      path = style_output_path(style.extension)
+      # use the absolute style output path to make sure we have the directory set up
+      path = style_output_path(style.extension, false)
       FileUtils.mkdir_p(File.dirname(path))
       
-      style.write(path, @sprite_files)
+      # send the style the relative path
+      style.write(style_output_path(style.extension, true), @sprite_files)
     end
     
     # sets all the default values on the config

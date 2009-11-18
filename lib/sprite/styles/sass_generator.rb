@@ -10,7 +10,7 @@ module Sprite
       def write(path, sprite_files)
         @level = 0
 
-        File.open(path, 'w') do |f|
+        File.open(File.join(Sprite.root, path), 'w') do |f|
           if @builder.config['sprites_class']
             f.puts ".#{@builder.config['sprites_class']}"
             @level += 1

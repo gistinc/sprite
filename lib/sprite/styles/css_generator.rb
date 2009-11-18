@@ -11,7 +11,7 @@ module Sprite
         sprites_class = @builder.config['sprites_class'] ? ".#{@builder.config['sprites_class']}" : ""
     
         # write styles to disk
-        File.open(path, 'w') do |f|
+        File.open(File.join(Sprite.root, path), 'w') do |f|
           # write stylesheet file to disk
           sprite_files.each do |sprite_file, sprites|
             sprites.each do |sprite|

@@ -12,7 +12,7 @@ module Sprite
         config_location = write_config(path, sprite_files)
         
         # write the sass mixins to disk
-        File.open(path, 'w') do |f|
+        File.open(File.join(Sprite.root, path), 'w') do |f|
           f.puts "!sprite_data = '#{config_location}'"
           f.puts ""
           f.puts "= sprite(!group_name, !image_name)"
@@ -38,7 +38,7 @@ module Sprite
         
         # write the config yml to disk
         config_path = path.gsub(".sass", ".yml")
-        File.open(config_path, 'w') do |f|
+        File.open(File.join(Sprite.root, config_path), 'w') do |f|
           YAML.dump(result, f)
         end
         
