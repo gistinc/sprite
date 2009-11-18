@@ -10,6 +10,10 @@ require 'sprite'
 # set Sprite.root to be this spec/ folder
 Sprite.module_eval{ @root = File.dirname(__FILE__) }
 
+# clear output
+FileUtils.rm_rf("#{Sprite.root}/output")
+
+
 Spec::Runner.configure do |config|
   
   module SpriteSpecHelpers
@@ -19,7 +23,7 @@ Spec::Runner.configure do |config|
   end
 
   config.include(SpriteSpecHelpers)
-  config.before(:all) do    
+  config.before do    
   end
   
 end
