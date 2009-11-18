@@ -1,14 +1,14 @@
 require 'sprite/styles/sass_generator'
 require 'sprite/styles/css_generator'
+require 'sprite/styles/sass_yml_generator'
 require 'sprite/styles/sass_mixin_generator'
-require 'sprite/styles/sass_if_generator'
 
 module Sprite::Styles
   GENERATORS = {
     "css" => "CssGenerator",
     "sass" => "SassGenerator",
     "sass_mixin" => "SassMixinGenerator",
-    "sass_if" => "SassIfGenerator"
+    "sass_yml" => "SassYmlGenerator"
   }
   
   def self.get(config)
