@@ -5,7 +5,6 @@ module Sprite
     
     attr_reader :config
     attr_reader :images
-    attr_reader :output
     
     def self.from_config(path = nil) 
       results = {}
@@ -63,7 +62,7 @@ module Sprite
       combiner = ImageCombiner.new
       
       dest_image = combiner.get_image(sources.shift)
-      results << combiner.image_properties(dest_image).merge(:x => 0, :y => 0)
+      results << combiner.image_properties(dest_image).merge(:x => 0, :y => 0, :group => name)
       sources.each do |source|
         source_image = combiner.get_image(source)
         if image['align'].to_s == 'horizontal'
@@ -87,25 +86,16 @@ module Sprite
     end
 
     def output_file
+      style = Styles.get(config["style"]).new(self)
+      
       # set up path
-      path = style_output_path("css")
+      path = style_output_path(style.extension)
       FileUtils.mkdir_p(File.dirname(path))
       
-      # set up class_name to append to each rule
-      sprites_class = config['sprites_class'] ? ".#{config['sprites_class']}" : ""
-      
-      # write stylesheet file to disk
+      # write styles to disk
       File.open(path, 'w') do |f|
-        @output.each do |dest, results|
-          results.each do |result|
-            f.puts "#{sprites_class}.#{result[:group]}#{config['class_separator']}#{result[:name]} {"
-            f.puts "  background: url('/#{config['image_output_path']}#{dest}') no-repeat #{result[:x]}px #{result[:y]}px;"
-            f.puts "  width: #{result[:width]}px;"
-            f.puts "  height: #{result[:height]}px;"
-            f.puts "}"
-          end
-        end
-      end
+        f << style.generate(@output)
+      end      
     end
     
     # get the disk path for the style output file
@@ -144,9 +134,9 @@ module Sprite
     # sets all the default values on the config
     def set_config_defaults
       @config['style']              ||= 'css'
-      @config['style_output_path']        ||= 'stylesheets/sprites'
+      @config['style_output_path']  ||= 'stylesheets/sprites'
       @config['image_output_path']  ||= 'images/sprites/'
-      @config['image_source_path']        ||= 'images/'
+      @config['image_source_path']  ||= 'images/'
       @config['public_path']        ||= 'public/'
       @config['default_format']     ||= 'png'
       @config['class_separator']    ||= '-'

@@ -16,7 +16,6 @@ module Sprite
       image
     end
 
-
     # Image Utility Methods
     def get_image(image_filename)
       image = Magick::Image::read(image_filename).first

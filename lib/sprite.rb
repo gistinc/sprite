@@ -20,3 +20,4 @@ end
 
 require 'sprite/builder'
 require 'sprite/image_combiner'
+require 'sprite/styles'
