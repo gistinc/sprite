@@ -81,7 +81,7 @@ Running `sprite` with no configuration file will generate the following new file
 
 Any folders within `public/images/sprites/` will get compressed into a merged image file at the same 
 location. Then `sprites.css` will get generated in the stylesheets folder with all the class definitions for 
-these files. Just include `sprites.css` into your stylesheet and you're ready to go!
+these files. Just add a link to `sprites.css` into your html <head> and you're ready to go!
 
 
 ## CONFIGURATION ##
