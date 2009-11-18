@@ -90,9 +90,10 @@ Configuration of `sprite` is done via `config/sprite.yml`. It allows you to set 
   
 * `config:` section defines all the global properties for sprite generation. Such as how it generates the styles, where it looks for images, where it writes it output file to, and what image file format it uses by default
   - `style:` defines how the style rules are outputted. built in options are `css`, `sass`, and `sass_mixin`. (defaults to `css`)
-  - `output_path:` defines the file path where your style settings get written (defaults to `public/stylesheets/sprites`). the file extension not needed as it will be set based on the `style:` setting 
-  - `image_output_path:` defines the folder path where the combined sprite images files are written (defaults to `public/images/sprites/`)
-  - `source_path:` defines the folder where source image files are read from (defaults to `public/images/`)
+  - `style_output_path:` defines the file path where your style settings get written (defaults to `stylesheets/sprites`). the file extension not needed as it will be set based on the `style:` setting 
+  - `image_output_path:` defines the folder path where the combined sprite images files are written (defaults to `images/sprites/`)
+  - `image_source_path:` defines the folder where source image files are read from (defaults to `images/`)
+  - `public_path:` defines the root folder where static assets live (defaults to `public/`)
   - `sprites_class:` defines the class name that gets added to all sprite stylesheet rules (defaults to `sprites`)
   - `default_format:` defines the default file image format of the generated files. (defaults to `png`)
   - `class_separator:` used to generated the class name by separating the image name and sprite name (defaults to `-`)
@@ -104,7 +105,7 @@ Configuration of `sprite` is done via `config/sprite.yml`. It allows you to set 
   - `spaced_by:` spacing (in pixels) between the combined images. (defaults to `0`)
   - `format:` define what image file format gets created (optional, uses `default_format` setting if not set)
 
-you can define any number of destination image files.
+All image and style paths should be set relative to the public folder (which is configurable via public_path setting).
 
 ### Sample Configuration `config/sprite.yml` ###
 
@@ -112,9 +113,10 @@ you can define any number of destination image files.
 
     config:
       style: css
-      output_path: public/sass/mixins/sprites.sass
-      image_output_path: public/images/sprites/
-      source_path: public/images/
+      style_output_path: sass/mixins/sprites.sass
+      image_output_path: images/sprites/
+      image_source_path: images/
+      public_path: public/
       sprites_class: 'sprites'
       class_separator: '-'
       default_format: png
