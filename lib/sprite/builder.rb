@@ -1,3 +1,4 @@
+require 'fileutils'
 module Sprite
   class Builder  
     DEFAULT_CONFIG_PATH = 'config/sprite.yml'
@@ -6,13 +7,12 @@ module Sprite
     attr_reader :images
     attr_reader :output
     
-    def self.from_config(path) 
-      
-      # look up file
+    def self.from_config(path = nil) 
+
       results = {}
-      config_path = File.join(Sprite.root, path || DEFAULT_CONFIG_PATH)
+      config_path = File.join(Sprite.root, path || DEFAULT_CONFIG_PATH)      
       begin
-        results = File.open(config_path) {|f| YAML::load(f)}
+        results = File.open(config_path) {|f| YAML::load(f)} || {}
       rescue => e
         puts "Unable to read sprite config: #{Sprite.root+"/"+config_path}"
         puts e.to_s
@@ -38,26 +38,25 @@ module Sprite
   
     def build    
       @output = {}
-
-      # build up config
-      # @image_path = sprite_config['base_image_path'] ? Sprite.root+"/"+sprite_config['config']['base_image_path']+"/" : DEFAULT_IMAGE_PATH
-      # @file_path = sprite_config['config']['output_file'] ? Sprite.root+"/"+sprite_config['config']['output_file'] : DEFAULT_FILE_PATH
+      
+      if images.size > 0
+        # create images
+        images.each do |image|
+          output_image(image)
+        end
     
-      # create images
-      images.each do |image|
-        output_image(image)
+        # write css
+        output_file
       end
-    
-      # write css
-      output_file
     end
   
     def output_image(image)
       results = []
-      sources = configuration['sources'].to_a
-
-      dest = configuration['target'] || sources[0].gsub(/\./,"_sprite.")
-      spaced_by = configuration['spaced_by'] || 0
+      sources = image['sources'].to_a
+      return unless sources.length > 0
+      
+      name = image['name']
+      spaced_by = image['spaced_by'] || 0
       
       combiner = ImageCombiner.new
       
@@ -65,7 +64,7 @@ module Sprite
       results << combiner.image_properties(dest_image).merge(:x => 0, :y => 0)
       sources.each do |source|
         source_image = combiner.get_image(source)
-        if configuration['align'].to_s == 'horizontal'
+        if image['align'].to_s == 'horizontal'
           x = dest_image.columns + spaced_by
           y = 0
         else
@@ -75,12 +74,23 @@ module Sprite
         results << combiner.image_properties(source_image).merge(:x => x, :y => y)
         dest_image = combiner.composite_images(dest_image, source_image, x, y)
       end
-      @output[dest] = results
-      dest_image.write(@image_path + dest)
+      @output[name] = results
+      
+      # set up path
+      path = image_path(name, image['format'])
+      FileUtils.mkdir_p(File.dirname(path))
+      
+      # write sprite image file to disk
+      dest_image.write(path)
     end
-  
-    def output_file(configuration)
-      File.open(@file_path, 'w') do |f|
+    
+    def output_file
+      # set up path
+      path = output_path("css")
+      FileUtils.mkdir_p(File.dirname(path))
+      
+      # write stylesheet file to disk
+      File.open(path, 'w') do |f|
         @output.each do |dest, results|
           results.each do |result|
             f.puts ".#{result[:name]}"
@@ -95,6 +105,14 @@ module Sprite
     
     protected
     
+    def output_path(file_ext)
+      "#{Sprite.root}/#{config['output_path']}.#{file_ext}"
+    end
+    
+    def image_path(name, format)
+      "#{Sprite.root}/#{config['image_output_path']}#{name}.#{format}"
+    end
+    
     # sets all the default values on the config
     def set_config_defaults
       @config['style']             ||= 'css'
@@ -105,20 +123,14 @@ module Sprite
       @config['class_separator']   ||= '_'
     end
     
-    # expands out sources
+    # expands out sources, taking the Glob paths and turning them into separate entries in the array
     def expand_image_paths
       # cycle through image sources and expand out globs
       @images.each do |image|
-
         # expand out all the globs
         image['sources'] = image['sources'].to_a.map{ |source|
           Dir.glob(File.join(Sprite.root, @config['source_path'], source))
         }.flatten.compact
-        
-        # remove the prefixes on them
-        image['sources'].each do |source|
-          source.gsub!(Sprite.root, "")
-        end
       end
     end
     
