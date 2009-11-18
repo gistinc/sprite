@@ -57,6 +57,7 @@ module Sprite
       return unless sources.length > 0
       
       name = image['name']
+      format = image['format'] || config["default_format"]
       spaced_by = image['spaced_by'] || 0
       
       combiner = ImageCombiner.new
@@ -77,12 +78,12 @@ module Sprite
       end
       
       # set up path
-      path = image_output_path(name, image['format'] || config["default_format"])
+      path = image_output_path(name, format)
       FileUtils.mkdir_p(File.dirname(path))
       
       # write sprite image file to disk
       dest_image.write(path)
-      @output[name] = results
+      @output["#{name}.#{format}"] = results
     end
 
     def output_file
