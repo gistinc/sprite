@@ -24,30 +24,11 @@ Install the `sprite` gem from gemcutter
     gem sources -a http://gemcutter.org
     gem install sprite
 
-### if using Merb ###
-
-With Merb 1.1 and Bundler, just add the line `gem 'sprite'` your ./Gemfile and then run `gem bundle`
-
-### if using Rails ###
-
-add to environment.rb
-    
-    config.gem "sprite"
-
-or install as a plugin
-
-    script/plugin install git://github.com/gistinc/sprite.git
-
 ## USAGE ##
 
 if installed as a gem, at your root project folder you can just run 
   
     sprite
-
-if you would rather not install the gem, you can also use it with rake
-
-    rake sprite:build
-
 
 ### Intelligent Defaults ###
 
@@ -177,6 +158,13 @@ We also support mixin syntax via `style: sass_mixin`. If set, sprite will only g
 
     .mysmallbluestar
       +sprite("blue-stars", "small")
+      
+      
+## Framework Integration?? ##
+
+`sprite` is provided as a command line helper. Deep web framework integration is not implemented at this time, however it shouldn't be needed. Just generate your sprites on your dev machine by running the command line, check in the resulting sprite images and stylesheets to your source control, and deploy!
+
+You can also easily script it out via capistrano. You could also run `sprite` on application start, or just about anywhere. Let me know what limitations you run into.
 
 ## ABOUT `sprite` ##
 
