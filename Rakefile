@@ -16,7 +16,7 @@ Jeweler::Tasks.new do |gemspec|
   gemspec.description = "sprite is a rails/merb plugin that generates sprites for css, sass"
   gemspec.email = "merbjedi@gmail.com"
   gemspec.homepage = "http://github.com/merbjedi/sprite" 
-  gemspec.authors = ["Jacques Crocker", "Richard Huang"]
+  gemspec.authors = ["Jacques Crocker"]
   gemspec.files.exclude '.gitignore'
   
   # removing test files and specs from the gem to save space

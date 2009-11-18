@@ -94,7 +94,7 @@ All image and style paths should be set relative to the public folder (which is 
 
     config:
       style: css
-      style_output_path: sass/mixins/sprites.sass
+      style_output_path: stylesheets/sprites
       image_output_path: images/sprites/
       image_source_path: images/
       public_path: public/
@@ -150,8 +150,10 @@ By default, it will use with `style: css` and generate the file at `public/style
       height: 75px;
     }
 
-We also support mixin syntax via `style: sass_mixin`. If set, sprite will only generate a yml with your specific sprite configurations. It then provides a SASS mixin which you can use in order to mix in these sprites anywhere within your SASS stylesheets.
-
+We also support mixin syntax via `style: sass_mixin`. If set, it will generate a SASS mixin which you can use in order to mix in these sprites anywhere within your SASS stylesheets. For this option, set `style_output_path:` to `stylesheets/sass/_sprites` in order to generate the sass mixin file at `stylesheets/sass/_sprites.sass`
+    
+    @import "sass/mixins/sprites.sass"
+    
     // you can then use your sprite like this
     .largebluestar
       +sprite("blue-stars", "large")
@@ -159,6 +161,7 @@ We also support mixin syntax via `style: sass_mixin`. If set, sprite will only g
     .mysmallbluestar
       +sprite("blue-stars", "small")
       
+Additional style generators are very easy to add. We have one for `style: sass` and `style: sass_ext`. The `sass_ext` style is a work in progress, as it's attempting to write the sprite data to yml and use a dynamic sass extension to provide the mixin. Eventually, if it works, this will be the default for `sass_mixin`
       
 ## Framework Integration?? ##
 
