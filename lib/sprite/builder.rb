@@ -93,11 +93,11 @@ module Sprite
       File.open(path, 'w') do |f|
         @output.each do |dest, results|
           results.each do |result|
-            f.puts ".#{result[:name]}"
+            f.puts ".#{result[:name]} {"
             f.puts "  background: url('/images/#{dest}') no-repeat #{result[:x]}px #{result[:y]}px;"
             f.puts "  width: #{result[:width]}px;"
             f.puts "  height: #{result[:height]}px;"
-            f.puts ""
+            f.puts "}"
           end
         end
       end

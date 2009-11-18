@@ -1,6 +1,6 @@
 config:
   style: css
-  output_path: output/stylesheets/android_cions
+  output_path: output/stylesheets/android_icons
   image_output_path: output/images/sprites/
   source_path: resources/images/
   class_separator: '_'
