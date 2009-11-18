@@ -93,8 +93,9 @@ Configuration of `sprite` is done via `config/sprite.yml`. It allows you to set 
   - `output_path:` defines the file path where your style settings get written (defaults to `public/stylesheets/sprites`). the file extension not needed as it will be set based on the `style:` setting 
   - `image_output_path:` defines the folder path where the combined sprite images files are written (defaults to `public/images/sprites/`)
   - `source_path:` defines the folder where source image files are read from (defaults to `public/images/`)
+  - `sprites_class:` defines the class name that gets added to all sprite stylesheet rules (defaults to `sprites`)
   - `default_format:` defines the default file image format of the generated files. (defaults to `png`)
-  - `class_separator:` used within the generated class names between the image name and sprite name (defaults to `_`)
+  - `class_separator:` used to generated the class name by separating the image name and sprite name (defaults to `-`)
 
 * `images:` section provides an array of configurations which define which image files are built, and where they get their sprites from. each image setup provides the following config options:
   - `name:` name of image (required)
@@ -114,7 +115,8 @@ you can define any number of destination image files.
       output_path: public/sass/mixins/sprites.sass
       image_output_path: public/images/sprites/
       source_path: public/images/
-      class_separator: '_'
+      sprites_class: 'sprites'
+      class_separator: '-'
       default_format: png
     
     # defines what sprite collections get created

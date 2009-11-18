@@ -71,7 +71,7 @@ module Sprite
           x = 0
           y = dest_image.rows + spaced_by
         end
-        results << combiner.image_properties(source_image).merge(:x => x, :y => y)
+        results << combiner.image_properties(source_image).merge(:x => x, :y => y, :group => name)
         dest_image = combiner.composite_images(dest_image, source_image, x, y)
       end
       @output[name] = results
@@ -89,11 +89,14 @@ module Sprite
       path = output_path("css")
       FileUtils.mkdir_p(File.dirname(path))
       
+      # set up class_name to append to each rule
+      sprites_class = config['sprites_class'] ? ".#{config['sprites_class']}" : ""
+      
       # write stylesheet file to disk
       File.open(path, 'w') do |f|
         @output.each do |dest, results|
           results.each do |result|
-            f.puts ".#{result[:name]} {"
+            f.puts "#{sprites_class}.#{result[:group]}#{config['class_separator']}#{result[:name]} {"
             f.puts "  background: url('/images/#{dest}') no-repeat #{result[:x]}px #{result[:y]}px;"
             f.puts "  width: #{result[:width]}px;"
             f.puts "  height: #{result[:height]}px;"
@@ -115,12 +118,13 @@ module Sprite
     
     # sets all the default values on the config
     def set_config_defaults
-      @config['style']             ||= 'css'
-      @config['output_path']       ||= 'public/stylesheets/sprites'
-      @config['image_output_path'] ||= 'public/images/sprites/'
-      @config['source_path']       ||= 'public/images/'
-      @config['default_format']    ||= 'png'
-      @config['class_separator']   ||= '_'
+      @config['style']              ||= 'css'
+      @config['output_path']        ||= 'public/stylesheets/sprites'
+      @config['image_output_path']  ||= 'public/images/sprites/'
+      @config['source_path']        ||= 'public/images/'
+      @config['default_format']     ||= 'png'
+      @config['class_separator']    ||= '-'
+      @config["sprites_class"] ||= 'sprites'
     end
     
     # expands out sources, taking the Glob paths and turning them into separate entries in the array

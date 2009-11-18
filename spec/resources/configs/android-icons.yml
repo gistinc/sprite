@@ -1,16 +1,16 @@
 config:
   style: css
-  output_path: output/stylesheets/android_icons
+  output_path: output/stylesheets/android-icons
   image_output_path: output/images/sprites/
   source_path: resources/images/
-  class_separator: '_'
+  class_separator: '-'
   default_format: png
 
 # defines what sprite collections get created
 images:    
-  - name: android_icons
+  - name: android-icons
     format: png
     align: vertical
     spaced_by: 50
     sources:
-      - android_icons/*.png
+      - android-icons/*.png
