@@ -5,13 +5,15 @@
 
 Gem::Specification.new do |s|
   s.name = %q{sprite}
-  s.version = "0.1.0"
+  s.version = "0.1.1"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Jacques Crocker", "Richard Huang"]
-  s.date = %q{2009-11-13}
+  s.date = %q{2009-11-17}
+  s.default_executable = %q{sprite}
   s.description = %q{sprite is a rails/merb plugin that generates sprites for css, sass}
   s.email = %q{merbjedi@gmail.com}
+  s.executables = ["sprite"]
   s.extra_rdoc_files = [
     "README.md"
   ]
@@ -20,14 +22,12 @@ Gem::Specification.new do |s|
      "README.md",
      "Rakefile",
      "VERSION",
-     "config/css_sprite_example_config.yml",
+     "bin/sprite",
      "lib/sprite.rb",
-     "lib/sprite/sprite.rb",
-     "spec/resources/good_topic.gif",
-     "spec/resources/mid_topic.gif",
-     "spec/spec.opts",
-     "spec/spec_helper.rb",
-     "spec/sprite_spec.rb",
+     "lib/sprite/builder.rb",
+     "lib/sprite/image_combiner.rb",
+     "lib/sprite/runner.rb",
+     "rails/init.rb",
      "sprite.gemspec",
      "tasks/sprite_tasks.rake"
   ]
@@ -36,10 +36,6 @@ Gem::Specification.new do |s|
   s.require_paths = ["lib"]
   s.rubygems_version = %q{1.3.5}
   s.summary = %q{generate your css sprites automagically}
-  s.test_files = [
-    "spec/spec_helper.rb",
-     "spec/sprite_spec.rb"
-  ]
 
   if s.respond_to? :specification_version then
     current_version = Gem::Specification::CURRENT_SPECIFICATION_VERSION

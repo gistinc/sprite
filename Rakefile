@@ -18,6 +18,10 @@ Jeweler::Tasks.new do |gemspec|
   gemspec.homepage = "http://github.com/merbjedi/sprite" 
   gemspec.authors = ["Jacques Crocker", "Richard Huang"]
   gemspec.files.exclude '.gitignore'
+  
+  # removing test files and specs from the gem to save space
+  gemspec.files -= Dir.glob("spec/**/*")
+  gemspec.test_files = []
 end
 Jeweler::GemcutterTasks.new
 

@@ -4,7 +4,7 @@ describe Sprite::Builder do
 
   context "configuration parsing" do
     before(:all) do
-      @sprite = Sprite::Builder.from_config("resources/configs/full_config.yml")
+      @sprite = Sprite::Builder.from_config("resources/configs/config_test.yml")
     end 
     
     it "should load the settings keys from file" do
@@ -48,8 +48,23 @@ describe Sprite::Builder do
 
     it "'class_separator:' setting should default to '_'" do
       @sprite.config['class_separator'].should == "_"
+    end    
+  end
+  
+  
+  context "generate android icon sprites" do
+    before(:all) do
+      @sprite = Sprite::Builder.from_config("resources/configs/android_icons.yml")
+      @sprite.build
     end
     
+    it "should generate android.png" do
+      File.exists?("#{Sprite.root}/output/images/sprites/android_icons.png")
+    end
+    
+    it "should generate android_icons.css" do
+      File.exists?("#{Sprite.root}/output/stylesheets/android_icons.css")
+    end
   end
   
 end
