@@ -58,7 +58,7 @@ For example, given you have the following setup:
     public/
       images/
         sprites/
-          black_icons/
+          black-icons/
             stop.png
             go.png
             back.png
@@ -76,7 +76,7 @@ Running `sprite` with no configuration file will generate the following new file
         sprites.css
       images/
         sprites/
-          black_icons.png
+          black-icons.png
           weather.png
 
 Any folders within `public/images/sprites/` will get compressed into a merged image file at the same 
@@ -128,41 +128,41 @@ you can define any number of destination image files.
         align: horizontal
         spaced_by: 50
         sources:
-          - icons/blue_stars/small.png
-          - icons/blue_stars/medium.png
-          - icons/blue_stars/large.png
-          - icons/blue_stars/xlarge.png
+          - icons/blue-stars/small.png
+          - icons/blue-stars/medium.png
+          - icons/blue-stars/large.png
+          - icons/blue-stars/xlarge.png
       
-      # creates a public/images/sprites/green_stars.jpg image with 
-      # all the jpg files contained within /images/icons/green_stars/
+      # creates a public/images/sprites/green-stars.jpg image with 
+      # all the gif files contained within /images/icons/green-stars/
       - name: green_stars
-        format: jpg
+        format: png
         align: vertical
         spaced_by: 50
         sources:
-          - icons/green_stars/*.jpg
+          - icons/green-stars/*.gif
 
 ### Style Settings ###
 
 By default, it will use with `style: css` and generate the file at `public/stylesheets/sprites.css`
 
-    .sprites.blue_stars_small {
-      background: url('/images/icons/blue_stars/small.png') no-repeat 0px 0px;
+    .sprites.blue-stars-small {
+      background: url('/images/icons/blue-stars/small.png') no-repeat 0px 0px;
       width: 12px;
       height: 6px;
     }
-    .sprites.blue_stars_medium {
-      background: url('/images/icons/blue_stars/medium.png') no-repeat 0px 6px;
+    .sprites.blue-stars-medium {
+      background: url('/images/icons/blue-stars/medium.png') no-repeat 0px 6px;
       width: 30px;
       height: 15px;
     }
-    .sprites.blue_stars_large {
-      background: url('/images/icons/blue_stars/large.png') no-repeat 0px 21px;
+    .sprites.blue-stars-large {
+      background: url('/images/icons/blue-stars/large.png') no-repeat 0px 21px;
       width: 60px;
       height: 30px;
     }
-    .sprites.blue_stars_xlarge {
-      background: url('/images/icons/blue_stars/xlarge.png') no-repeat 0px 96px;
+    .sprites.blue-stars-xlarge {
+      background: url('/images/icons/blue-stars/xlarge.png') no-repeat 0px 96px;
       width: 100px;
       height: 75px;
     }
@@ -171,10 +171,10 @@ We also support mixin syntax via `style: sass_mixin`. If set, sprite will only g
 
     // you can then use your sprite like this
     .largebluestar
-      +sprite("blue_stars", "large")
+      +sprite("blue-stars", "large")
 
     .mysmallbluestar
-      +sprite("blue_stars", "small")
+      +sprite("blue-stars", "small")
 
 ## ABOUT `sprite` ##
 
