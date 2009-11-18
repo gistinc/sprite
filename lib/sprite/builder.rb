@@ -31,26 +31,28 @@ module Sprite
       set_image_defaults
       expand_image_paths
       
-      # initialize output
-      @output = {}
+      # initialize sprite files
+      @sprite_files = {}
     end
   
     def build    
-      @output = {}
+      @sprite_files = {}
       
       if images.size > 0
         # create images
         images.each do |image|
-          output_image(image)
+          write_image(image)
         end
     
-        # write css
-        output_file
+        if @sprite_files.values.length > 0
+          # write css
+          write_styles
+        end
       end
     end
     
     protected
-    def output_image(image)
+    def write_image(image)
       results = []
       sources = image['sources'].to_a
       return unless sources.length > 0
@@ -82,53 +84,17 @@ module Sprite
       
       # write sprite image file to disk
       dest_image.write(path)
-      @output["#{name}.#{format}"] = results
+      @sprite_files["#{name}.#{format}"] = results
     end
-
-    def output_file
+    
+    def write_styles
       style = Styles.get(config["style"]).new(self)
       
       # set up path
       path = style_output_path(style.extension)
       FileUtils.mkdir_p(File.dirname(path))
       
-      # write styles to disk
-      File.open(path, 'w') do |f|
-        f << style.generate(@output)
-      end      
-    end
-    
-    # get the disk path for the style output file
-    def style_output_path(file_ext)
-      path = config['style_output_path']
-      unless path.include?(".#{file_ext}")
-        path = "#{path}.#{file_ext}"
-      end
-      public_path(path)
-    end
-    
-    # get the disk path for a location within the image output folder
-    def image_output_path(name, format)
-      path_parts = []
-      path_parts << chop_trailing_slash(config['image_output_path'])
-      path_parts << "#{name}.#{format}"
-      public_path(File.join(*path_parts))
-    end
-    
-    # get the disk path for a location within the public folder (if set)
-    def public_path(location)
-      path_parts = []
-      path_parts << Sprite.root
-      path_parts << chop_trailing_slash(config['public_path']) if config['public_path'] and config['public_path'].length > 0
-      path_parts << location
-      
-      File.join(*path_parts)
-    end
-    
-    # chop off the trailing slash on a directory path (if it exists)
-    def chop_trailing_slash(path)
-      path = path[0...-1] if path[-1] == File::SEPARATOR
-      path
+      style.write(path, @sprite_files)
     end
     
     # sets all the default values on the config
@@ -147,7 +113,7 @@ module Sprite
     def set_image_defaults
       return unless @images.size == 0
       
-      sprites_path = File.join(Sprite.root, config['public_path'], config['image_source_path'], "sprites")
+      sprites_path = image_source_path("sprites")
       
       if File.exists?(sprites_path)
         Dir.glob(File.join(sprites_path, "*")) do |dir|
@@ -166,7 +132,6 @@ module Sprite
           }
         end
       end
-      
     end
     
     # expands out sources, taking the Glob paths and turning them into separate entries in the array
@@ -175,10 +140,55 @@ module Sprite
       @images.each do |image|
         # expand out all the globs
         image['sources'] = image['sources'].to_a.map{ |source|
-          Dir.glob(File.join(Sprite.root, config['public_path'], @config['image_source_path'], source))
+          Dir.glob(image_source_path(source))
         }.flatten.compact
       end
     end
     
+    # get the disk path for the style output file
+    def style_output_path(file_ext, relative = false)
+      path = config['style_output_path']
+      unless path.include?(".#{file_ext}")
+        path = "#{path}.#{file_ext}"
+      end
+      public_path(path, relative)
+    end
+    
+    # get the disk path for a location within the image output folder
+    def image_output_path(name, format, relative = false)
+      path_parts = []
+      path_parts << chop_trailing_slash(config['image_output_path']) if path_present?(config['image_output_path'])
+      path_parts << "#{name}.#{format}"
+      public_path(File.join(*path_parts), relative)
+    end
+    
+    # get the disk path for an image source file
+    def image_source_path(location, relative = false)
+      path_parts = []
+      path_parts << chop_trailing_slash(config["image_source_path"]) if path_present?(config['image_source_path'])
+      path_parts << location
+      public_path(File.join(*path_parts), relative)
+    end
+    
+    # get the disk path for a location within the public folder (if set)
+    def public_path(location, relative = false)
+      path_parts = []
+      path_parts << Sprite.root unless relative
+      path_parts << chop_trailing_slash(config['public_path']) if path_present?(config['public_path'])
+      path_parts << location
+      
+      File.join(*path_parts)
+    end
+        
+    # chop off the trailing slash on a directory path (if it exists)
+    def chop_trailing_slash(path)
+      path = path[0...-1] if path[-1] == File::SEPARATOR
+      path
+    end
+    
+    # check if the path is set
+    def path_present?(path)
+      path.to_s.strip != ""
+    end
   end
 end

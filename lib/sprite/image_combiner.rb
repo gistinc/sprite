@@ -24,6 +24,10 @@ module Sprite
     def image_properties(image)
       {:name => File.basename(image.filename).split('.')[0], :width => image.columns, :height => image.rows}
     end
+        
+    # REMOVE RMAGICK AND USE IMAGEMAGICK FROM THE COMMAND LINE
+    # identify => find properties for an image
+    # composite => combine 2 images
 
   end
 end
