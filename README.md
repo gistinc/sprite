@@ -77,6 +77,7 @@ Configuration of `sprite` is done via `config/sprite.yml`. It allows you to set 
   - `public_path:` defines the root folder where static assets live (defaults to `public/`)
   - `sprites_class:` defines the class name that gets added to all sprite stylesheet rules (defaults to `sprites`)
   - `default_format:` defines the default file image format of the generated files. (defaults to `png`)
+  - `default_spacing:` defines the default pixel spacing between sprites (defaults to 0)
   - `class_separator:` used to generated the class name by separating the image name and sprite name (defaults to `-`)
 
 * `images:` section provides an array of configurations which define which image files are built, and where they get their sprites from. each image setup provides the following config options:
@@ -101,6 +102,7 @@ All image and style paths should be set relative to the public folder (which is 
       sprites_class: 'sprites'
       class_separator: '-'
       default_format: png
+      default_spacing: 50
     
     # defines what sprite collections get created
     images:    

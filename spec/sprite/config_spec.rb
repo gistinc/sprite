@@ -8,7 +8,7 @@ describe Sprite::Builder do
     end 
     
     it "should load the settings keys from file" do
-      @sprite.config.keys.size.should == 8
+      @sprite.config.keys.size.should == 9
     end
 
     it "should load the image keys from file" do

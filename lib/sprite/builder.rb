@@ -59,7 +59,7 @@ module Sprite
       
       name = image['name']
       format = image['format'] || config["default_format"]
-      spaced_by = image['spaced_by'] || 0
+      spaced_by = image['spaced_by'] || config["default_spacing"] || 0
       
       combiner = ImageCombiner.new
       
@@ -108,6 +108,7 @@ module Sprite
       @config['default_format']     ||= 'png'
       @config['class_separator']    ||= '-'
       @config["sprites_class"]      ||= 'sprites'
+      @config["default_spacing"]    ||= 0
     end
     
     # if no image configs are detected, set some intelligent defaults
