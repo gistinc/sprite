@@ -74,7 +74,7 @@ module Sprite
           x = 0
           y = dest_image.rows + spaced_by
         end
-        results << combiner.image_properties(source_image).merge(:x => x, :y => y, :group => name)
+        results << combiner.image_properties(source_image).merge(:x => -x, :y => -y, :group => name)
         dest_image = combiner.composite_images(dest_image, source_image, x, y)
       end
       
