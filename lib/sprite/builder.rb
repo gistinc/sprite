@@ -70,11 +70,13 @@ module Sprite
         if image['align'].to_s == 'horizontal'
           x = dest_image.columns + spaced_by
           y = 0
+          align = "horizontal"
         else
           x = 0
           y = dest_image.rows + spaced_by
+          align = "vertical"
         end
-        results << combiner.image_properties(source_image).merge(:x => -x, :y => -y, :group => name)
+        results << combiner.image_properties(source_image).merge(:x => -x, :y => -y, :group => name, :align => align)
         dest_image = combiner.composite_images(dest_image, source_image, x, y)
       end
       
