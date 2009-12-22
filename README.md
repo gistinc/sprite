@@ -79,7 +79,8 @@ Configuration of `sprite` is done via `config/sprite.yml`. It allows you to set 
   - `default_format:` defines the default file image format of the generated files. (defaults to `png`)
   - `default_spacing:` defines the default pixel spacing between sprites (defaults to 0)
   - `class_separator:` used to generated the class name by separating the image name and sprite name (defaults to `-`)
-
+  - `add_datestamps`: whether or not to add datestamps to the generated background image urls. this will allow proper cache versioning (defaults to `true`)
+  
 * `images:` section provides an array of configurations which define which image files are built, and where they get their sprites from. each image setup provides the following config options:
   - `name:` name of image (required)
   - `sources:` defines a list of source image filenames to build the target image from (required). They are parsed by <code>Dir.glob</code>

@@ -30,6 +30,9 @@ module Sprite
       @images = images || []
       set_image_defaults
       expand_image_paths
+
+      # initialize datestamp
+      @datestamp_query = "?#{Time.now.to_i}" if @config["add_datestamps"]
       
       # initialize sprite files
       @sprite_files = {}
@@ -86,7 +89,7 @@ module Sprite
       
       # write sprite image file to disk
       dest_image.write(path)
-      @sprite_files["#{name}.#{format}"] = results
+      @sprite_files["#{name}.#{format}#{@datestamp_query}"] = results
     end
     
     def write_styles
@@ -111,6 +114,10 @@ module Sprite
       @config['class_separator']    ||= '-'
       @config["sprites_class"]      ||= 'sprites'
       @config["default_spacing"]    ||= 0
+      
+      unless @config.has_key?("add_datestamps")
+        @config["add_datestamps"] = true
+      end
     end
     
     # if no image configs are detected, set some intelligent defaults
