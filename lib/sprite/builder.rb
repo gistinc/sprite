@@ -57,7 +57,7 @@ module Sprite
     protected
     def write_image(image)
       results = []
-      sources = image['sources'].to_a
+      sources = image['sources'].to_a.sort
       return unless sources.length > 0
       
       name = image['name']
