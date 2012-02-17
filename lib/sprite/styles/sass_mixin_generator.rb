@@ -29,7 +29,7 @@ module Sprite
               end
               
               f.puts %{if !group_name == "#{sprite[:group]}" and !image_name == "#{sprite[:name]}"}
-              f.puts "    background: url('/#{@builder.config['image_output_path']}#{sprite_file}') no-repeat #{background_offset}"
+              f.puts "    background: url('/#{@builder.config['image_stylesheet_path']}#{sprite_file}') no-repeat #{background_offset}"
               f.puts "    width: #{sprite[:width]}px"
               f.puts "    height: #{sprite[:height]}px"
             end

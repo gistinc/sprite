@@ -20,7 +20,7 @@ module Sprite
             sprites.each do |sprite|
               f.puts sass_line("&.#{sprite[:group]}#{@builder.config['class_separator']}#{sprite[:name]}")
               @level += 1
-              f.puts sass_line("background: url('/#{@builder.config['image_output_path']}#{sprite_file}') no-repeat #{sprite[:x]}px #{sprite[:y]}px")
+              f.puts sass_line("background: url('/#{@builder.config['image_stylesheet_path']}#{sprite_file}') no-repeat #{sprite[:x]}px #{sprite[:y]}px")
               f.puts sass_line("width: #{sprite[:width]}px")
               f.puts sass_line("height: #{sprite[:height]}px")
               f.puts sass_line("")

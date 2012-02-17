@@ -73,6 +73,7 @@ Configuration of `sprite` is done via `config/sprite.yml`. It allows you to set 
   - `style:` defines how the style rules are outputted. built in options are `css`, `sass`, and `sass_mixin`. (defaults to `css`)
   - `style_output_path:` defines the file path where your style settings get written (defaults to `stylesheets/sprites`). the file extension not needed as it will be set based on the `style:` setting 
   - `image_output_path:` defines the folder path where the combined sprite images files are written (defaults to `images/sprites/`)
+  - `image_stylesheet_path:` defines the path the stylesheet will use when setting the url to the background images (defaults to the image_output_path)
   - `image_source_path:` defines the folder where source image files are read from (defaults to `images/`)
   - `public_path:` defines the root folder where static assets live (defaults to `public/`)
   - `sprites_class:` defines the class name that gets added to all sprite stylesheet rules (defaults to `sprites`)

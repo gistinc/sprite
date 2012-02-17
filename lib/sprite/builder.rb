@@ -115,6 +115,7 @@ module Sprite
       @config["sprites_class"]      ||= 'sprites'
       @config["default_spacing"]    ||= 0
       
+      @config['image_stylesheet_path'] ||= @config['image_output_path']
       unless @config.has_key?("add_datestamps")
         @config["add_datestamps"] = true
       end
