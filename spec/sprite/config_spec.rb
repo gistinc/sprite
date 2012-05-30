@@ -38,6 +38,10 @@ describe Sprite::Builder do
       @sprite.config['image_output_path'].should == "images/sprites/"
     end
 
+    it "'image_stylesheet_path:' setting should default to `image_output_path`" do
+      @sprite.config['image_stylesheet_path'].should == @sprite.config['image_output_path']
+    end
+
     it "'image_source_path:' setting should default to 'images/'" do
       @sprite.config['image_source_path'].should == "images/"
     end
